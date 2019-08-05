@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">TravelMantics</string>
+    <string name="title_hint">Deal Title</string>
+    <string name="prince_hint">Price (numbers only)</string>
+    <string name="description_hint">Description</string>
+    <string name="save_menu_lebel">save</string>
+    <string name="insert_menu_text">Add deal</string>
+    <string name="Delete_menu_item_string">Delete</string>
+    <string name="Logout_menu_label">Logout</string>
+    <string name="button_text">upload image</string>
+    <string name="Insert_picture_title">Insert Picture</string>
+    <string name="Signin_feedback">Welcome Back</string>
+    <string name="upload_feedback">Image upload failed!</string>
+    <string name="delete_feedback">Image deleted successfully</string>
+    <string name="delete_feedback_failure">Image was not deleted successfully</string>
+</resources>
