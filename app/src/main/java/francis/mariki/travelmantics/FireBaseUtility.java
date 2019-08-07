@@ -1,6 +1,7 @@
 package francis.mariki.travelmantics;
 
 import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -29,7 +30,7 @@ import io.opencensus.resource.Resource;
 import static androidx.core.app.ActivityCompat.startActivityForResult;
 
 public class FireBaseUtility {
-    private static final int RC_SIGN_IN = 123;
+    public static final int RC_SIGN_IN = 123;
     public  static ArrayList<TravelDeals> mDeals;
     public  static FirebaseDatabase mFireBaseDatabase;
     public  static DatabaseReference mDatabaseReference;
@@ -38,8 +39,8 @@ public class FireBaseUtility {
     public static StorageReference mStorageReference;
     public static FirebaseAuth mFireBaseAuth;
     public  static  FirebaseAuth.AuthStateListener mAuthListener;
-    private  static ListActivity caller;
     public static boolean isAdmin;
+    private  static ListActivity caller;
 
     public FireBaseUtility(){}
 
@@ -55,13 +56,13 @@ public class FireBaseUtility {
                 public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                     if(firebaseAuth.getCurrentUser()==null) {
                         signIn();
-                    }else{
-                        String uid=firebaseAuth.getUid();
-                        checkAdmin(uid);
-                    }
 
+                    }else{
+                        checkAdmin(firebaseAuth.getUid());
+                    }
                 }
             };
+
             connectStorage();
         }
         mDeals=new ArrayList<TravelDeals>();
@@ -69,14 +70,16 @@ public class FireBaseUtility {
         return  fireBaseUtility;
     }
 
+
     private static void checkAdmin(String uid) {
-     FireBaseUtility.isAdmin=false;
-     DatabaseReference databaseReference=mFireBaseDatabase.getReference().child("administrators").child(uid);
+        FireBaseUtility.isAdmin=false;
+        DatabaseReference databaseReference=mFireBaseDatabase.getReference().child("administrators").child(uid);
         ChildEventListener childEventListener=new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 FireBaseUtility.isAdmin=true;
                 caller.showMenu();
+
             }
 
             @Override

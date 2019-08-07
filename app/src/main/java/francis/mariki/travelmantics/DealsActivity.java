@@ -38,6 +38,9 @@ public class DealsActivity extends AppCompatActivity {
    EditText textDescritpion;
    ImageView  imageView;
     private TravelDeals deals;
+    private Button btnImage;
+
+
 
 
     @Override
@@ -48,22 +51,26 @@ public class DealsActivity extends AppCompatActivity {
         textTitle=findViewById(R.id.text_title);
         textDescritpion=findViewById(R.id.text_description);
         imageView=findViewById(R.id.image);
+
 //        FireBaseUtility.getInstance(DealsAdapter.TRAVELDEALS_DB_REFFERENCE,this);
         mFireBaseDatabase=FireBaseUtility.mFireBaseDatabase;
         mDataBaseReference=FireBaseUtility.mDatabaseReference;
         Intent intent=getIntent();
         TravelDeals deal= (TravelDeals) intent.getParcelableExtra(DealsAdapter.DEAL_SELECTED);
         if(deal==null){
-            deals = new TravelDeals();
+            deals = TravelDeals.getInstance();
         }else {
             deals = deal;
-        }
-           textTitle.setText(deals.getTitle());
-           textPrice.setText(deals.getPrice());
-           textDescritpion.setText(deals.getDescription());
-           showImage(deals.getImageUrl());
 
-        Button btnImage=findViewById(R.id.btnImage);
+        }
+
+        textTitle.setText(deals.getTitle());
+        textPrice.setText(deals.getPrice());
+        textDescritpion.setText(deals.getDescription());
+        showImage(deals.getImageUrl());
+
+        btnImage = findViewById(R.id.btnImage);
+
         btnImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -133,17 +140,6 @@ public class DealsActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        FireBaseUtility.detachAuthListerner();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        FireBaseUtility.attachAuthListerner();
-    }
 
     /**
      * This hook is called whenever an item in your options menu is selected.
@@ -240,6 +236,9 @@ public class DealsActivity extends AppCompatActivity {
 
         }
     }
+
+
+
     /**
      * Initialize the contents of the Activity's standard options menu.  You
      * should place your menu items in to <var>menu</var>.
@@ -273,7 +272,6 @@ public class DealsActivity extends AppCompatActivity {
         inflater.inflate(R.menu.save_menu,menu);
 
 
-
         if(FireBaseUtility.isAdmin){
             menu.findItem(R.id.save_menu).setVisible(true);
             menu.findItem(R.id.delete_item_menu).setVisible(true);
@@ -294,6 +292,7 @@ public class DealsActivity extends AppCompatActivity {
     public void enableTextField(boolean enable){
             textDescritpion.setEnabled(enable);
             textPrice.setEnabled(enable);
+            btnImage.setEnabled(enable);
             textTitle.setEnabled(enable);
     }
 }

@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -37,6 +38,14 @@ public class ListActivity extends AppCompatActivity {
         FireBaseUtility.detachAuthListerner();
     }
 
+    /*@Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==FireBaseUtility.RC_SIGN_IN && resultCode==RESULT_OK ){
+            FirebaseUser user=FireBaseUtility.mFireBaseAuth.getCurrentUser();
+        }
+    }
+*/
     @Override
     protected void onResume() {
         super.onResume();
@@ -53,6 +62,18 @@ public class ListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if(FireBaseUtility.isAdmin){
+            menu.findItem(R.id.insert_menu).setVisible(true);
+        }else {
+            menu.findItem(R.id.insert_menu).setVisible(false);
+
+        }
+        return super.onPrepareOptionsMenu(menu);
+
     }
 
     /**
@@ -86,12 +107,7 @@ public class ListActivity extends AppCompatActivity {
         MenuInflater inflater=getMenuInflater();
         inflater.inflate(R.menu.list_activity_menu,menu);
 
-        if(FireBaseUtility.isAdmin){
-            menu.findItem(R.id.insert_menu).setVisible(true);
-        }else {
-            menu.findItem(R.id.insert_menu).setVisible(false);
 
-        }
         return true;
     }
 
@@ -115,6 +131,7 @@ public class ListActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case (R.id.insert_menu): {
+
                 Intent intent = new Intent(this, DealsActivity.class);
                 startActivity(intent);
                 return true;
