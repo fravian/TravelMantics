@@ -295,4 +295,5 @@ public class DealsActivity extends AppCompatActivity {
             btnImage.setEnabled(enable);
             textTitle.setEnabled(enable);
     }
+    //this is just a test
 }
